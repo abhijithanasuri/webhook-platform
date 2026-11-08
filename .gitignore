@@ -1,0 +1,35 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Java build output
+**/target/
+**/build/
+.gradle/
+
+# JavaScript and CDK build output
+node_modules/
+**/dist/
+cdk.out/
+
+# Local tooling and temporary files
+.idea/
+*.iml
+.vscode/
+work/
+*.log
+.DS_Store
+Thumbs.db
+
+# Project-local development tools
+.tools/
+.local/
+**/.env
+**/.env.*
+!**/.env.example
+__pycache__/
+*.pyc
+dynamodb-local-metadata.json

@@ -1,0 +1,25 @@
+spring:
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+  application:
+    name: webhook-api
+server:
+  address: 127.0.0.1
+  port: 8080
+  error:
+    include-message: never
+    include-stacktrace: never
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+webhook:
+  security:
+    issuer: ${WEBHOOK_OIDC_ISSUER}
+    jwks: ${WEBHOOK_OIDC_JWKS}
+    client-id: ${WEBHOOK_OIDC_CLIENT_ID}

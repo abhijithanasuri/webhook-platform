@@ -1,0 +1,9 @@
+# Only explicit local profile activation enables this development issuer.
+webhook:
+  store:
+    endpoint: http://127.0.0.1:4566
+    table: webhook-configuration
+  security:
+    issuer: http://localhost:8081/realms/webhook-local
+    jwks: http://localhost:8081/realms/webhook-local/protocol/openid-connect/certs
+    client-id: webhook-dashboard

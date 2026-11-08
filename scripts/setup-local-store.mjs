@@ -1,0 +1,13 @@
+import { readFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+const list = spawnSync('docker', ['ps', '--filter', 'publish=4566', '--format', '{{.ID}}'], { encoding: 'utf8', windowsHide: true });
+if (list.status !== 0) throw new Error('Cannot access Docker. Open Docker Desktop and retry.');
+const containers = list.stdout.trim().split(/\r?\n/).filter(Boolean);
+if (containers.length === 0) throw new Error('No running LocalStack container on port 4566. Run scripts\\dev.cmd start-localstack first.');
+if (containers.length !== 1) throw new Error(`Found ${containers.length} containers matching port 4566; inspect docker ps before selecting one.`);
+const script = readFileSync(fileURLToPath(new URL('./setup-local-store.py', import.meta.url)), 'utf8');
+const result = spawnSync('docker', ['exec', '-i', containers[0], 'python', '-'], { input: script, encoding: 'utf8', windowsHide: true, timeout: 60000 });
+if (result.stdout) process.stdout.write(result.stdout);
+if (result.stderr) process.stderr.write(result.stderr);
+if (result.status !== 0) throw new Error('Local configuration table setup failed.');
